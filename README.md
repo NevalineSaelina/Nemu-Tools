@@ -1,6 +1,8 @@
 🎀 Nemu Tools
+
 A collection of small digital tools by Nevaline Saelina.
-About
+
+About:
 Nemu Tools is a personal programming project
 focused on building useful digital utilities.
 Current Tools
@@ -16,5 +18,8 @@ JavaScript
 Version
 v1.0.0
 Author
+
+
 Nevaline Saelina
 Learning, creating and exploring the digital world
+All rights reserved
