@@ -1,108 +1,108 @@
-{
-box-sizing: border-box;
+
+const textInput = document.getElementById("textInput");
+const analyzeButton = document.getElementById("analyzeButton");
+const clearButton = document.getElementById("clearButton");
+const copyButton = document.getElementById("copyButton");
+const resultBody = document.getElementById("resultBody");
+const status = document.getElementById("status");
+
+let currentResults = [];
+
+function analyzeText() {
+    const text = textInput.value;
+
+    resultBody.replaceChildren();
+    currentResults = [];
+
+    if (text.length === 0) {
+        status.textContent = "Please enter some text.";
+
+        const row = document.createElement("tr");
+        const cell = document.createElement("td");
+        cell.colSpan = 3;
+        cell.textContent = "No data yet.";
+
+        row.appendChild(cell);
+        resultBody.appendChild(row);
+        return;
+    }
+
+    const characters = Array.from(text);
+
+    characters.forEach((character) => {
+        const codePoint = character.codePointAt(0);
+
+        const unicode = "U+" + codePoint
+            .toString(16)
+            .toUpperCase()
+            .padStart(4, "0");
+
+        const decimal = codePoint;
+
+        const row = document.createElement("tr");
+
+        const characterCell = document.createElement("td");
+        const unicodeCell = document.createElement("td");
+        const decimalCell = document.createElement("td");
+
+        characterCell.textContent =
+            character === " " ? "[SPACE]" : character;
+
+        unicodeCell.textContent = unicode;
+        decimalCell.textContent = decimal;
+
+        row.append(
+            characterCell,
+            unicodeCell,
+            decimalCell
+        );
+
+        resultBody.appendChild(row);
+
+        currentResults.push(
+            `${character} | ${unicode} | ${decimal}`
+        );
+    });
+
+    status.textContent =
+        `Found ${characters.length} Unicode code points.`;
 }
-body {
-margin: 0;
-font-family: Arial, sans-serif;
-background: #101522;
-color: #eaf0ff;
-min-height: 100vh;
+
+function clearText() {
+    textInput.value = "";
+    resultBody.replaceChildren();
+
+    const row = document.createElement("tr");
+    const cell = document.createElement("td");
+
+    cell.colSpan = 3;
+    cell.textContent = "No data yet.";
+
+    row.appendChild(cell);
+    resultBody.appendChild(row);
+
+    currentResults = [];
+    status.textContent = "Waiting for input...";
 }
-header {
-text-align: center;
-padding: 55px 20px 30px;
+
+async function copyResults() {
+    if (currentResults.length === 0) {
+        status.textContent = "Nothing to copy.";
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(
+            currentResults.join("\n")
+        );
+
+        status.textContent = "Results copied successfully!";
+    } catch (error) {
+        status.textContent =
+            "Copy unavailable. Please check browser permissions.";
+    }
 }
-header h1 {
-font-size: 36px;
-color: #a9d8ff;
-}
-header p {
-color: #f3b9df;
-font-size: 18px;
-}
-header span {
-color: #aab5ca;
-font-size: 13px;
-}
-main {
-max-width: 850px;
-margin: auto;
-padding: 20px;
-}
-.tool-card {
-background: #1b2435;
-padding: 28px;
-border: 1px solid #39465e;
-border-radius: 18px;
-}
-.tool-card h2 {
-color: #a9d8ff;
-}
-textarea {
-width: 100%;
-min-height: 120px;
-padding: 15px;
-margin-top: 12px;
-border: 1px solid #52617b;
-border-radius: 10px;
-background: #101522;
-color: white;
-font-size: 16px;
-resize: vertical;
-}
-button {
-padding: 11px 20px;
-border: none;
-border-radius: 9px;
-background: #91caff;
-color: #101522;
-font-weight: bold;
-cursor: pointer;
-}
-button:hover {
-opacity: 0.85;
-}
-.secondary {
-background: #35435b;
-color: white;
-}
-.actions {
-display: flex;
-gap: 10px;
-margin: 15px 0 25px;
-}
-.result-header {
-display: flex;
-justify-content: space-between;
-align-items: center;
-gap: 10px;
-}
-#status {
-color: #b9c8df;
-font-size: 14px;
-}
-.table-wrapper {
-overflow-x: auto;
-}
-table {
-width: 100%;
-border-collapse: collapse;
-margin-top: 15px;
-}
-th, td {
-padding: 13px;
-border-bottom: 1px solid #39465e;
-text-align: left;
-}
-th {
-color: #f3b9df;
-}
-td {
-overflow-wrap: anywhere;
-}
-footer {
-text-align: center;
-padding: 35px 15px;
-color: #8492a9;
-font-size: 13px;
-}
+
+analyzeButton.addEventListener("click", analyzeText);
+clearButton.addEventListener("click", clearText);
+copyButton.addEventListener("click", copyResults);
