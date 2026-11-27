@@ -1,0 +1,66 @@
+<title>Nemu Tools — Unicode Explorer</title>
+
+<link rel="stylesheet" href="style.css">
+<header>
+    <h1>🎀 Nemu Tools</h1>
+    <p>Unicode Character Explorer</p>
+    <span>Digital tools by Nevaline Saelina</span>
+</header>
+
+<main>
+    <section class="tool-card">
+
+        <h2>Unicode Explorer</h2>
+
+        <p>Enter text to explore its Unicode characters.</p>
+
+        <textarea
+            id="textInput"
+            placeholder="Type something... 你好、Hello、こんにちは 🎀"
+        ></textarea>
+
+        <div class="actions">
+            <button id="analyzeButton">
+                Analyze
+            </button>
+
+            <button id="clearButton" class="secondary">
+                Clear
+            </button>
+        </div>
+
+        <div class="result-header">
+            <h3>Results</h3>
+            <button id="copyButton" class="secondary">
+                Copy Results
+            </button>
+        </div>
+
+        <p id="status" aria-live="polite">Waiting for input...</p>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Character</th>
+                        <th>Unicode</th>
+                        <th>Decimal</th>
+                    </tr>
+                </thead>
+
+                <tbody id="resultBody">
+                    <tr>
+                        <td colspan="3">No data yet.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 Nevaline Saelina · Nemu Tools</p>
+</footer>
+
+<script src="script.js"></script>
